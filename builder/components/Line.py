@@ -6,13 +6,15 @@ from builder.Grid import Grid
 class Line:
     points = []
     color = (255, 255, 255)
+    stroke_width = 1
 
-    def __init__(self, points=None, color=(255, 255, 255)):
+    def __init__(self, points=None, color=(255, 255, 255), stroke_width=1):
         if points is None:
             points = []
 
         self.points = points
         self.color = color
+        self.stroke_width = stroke_width
 
     def draw(self, screen, grid: Grid):
         for i in range(len(self.points) - 1):
@@ -27,6 +29,7 @@ class Line:
                     self.points[i + 1][0] * grid.col_width + grid.col_width // 2,
                     self.points[i + 1][1] * grid.row_height + grid.row_height // 2,
                 ),
+                self.stroke_width,
             )
 
         start = self.points[0]
@@ -38,7 +41,7 @@ class Line:
                 start[0] * grid.col_width + grid.col_width // 2,
                 start[1] * grid.row_height + grid.row_height // 2,
             ),
-            3,
+            max(3, self.stroke_width + 1),
         )
 
         pygame.draw.circle(
@@ -48,7 +51,7 @@ class Line:
                 end[0] * grid.col_width + grid.col_width // 2,
                 end[1] * grid.row_height + grid.row_height // 2,
             ),
-            3,
+            max(3, self.stroke_width + 1),
         )
 
     def add_point(self, x, y):
